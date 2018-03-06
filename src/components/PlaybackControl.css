@@ -1,6 +1,7 @@
 .playback-control div {
     padding: 4px 8px;
     background: #677075;
+    border: 1px solid #4C555A;
 }
 
 .playback-control button {

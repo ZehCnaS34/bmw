@@ -8,17 +8,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Timer/>
-        <Timer/>
-        <Timer/>
-        <Timer/>
+        <Timer />
         <PlaybackControl />
-        <PlaybackControl />
-        <Timeline />
-        <Timeline />
-        <Timeline />
-        <Timeline />
-        <Timeline />
+        {
+          (new Array(6).fill(0)).map((_, i) => <Timeline offset={i} />)
+        }
       </div>
     );
   }
