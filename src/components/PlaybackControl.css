@@ -1,0 +1,27 @@
+.playback-control div {
+    padding: 4px 8px;
+    background: #677075;
+}
+
+.playback-control button {
+    background: #474F53;
+    color: #D2E1E5;
+    display: inline-block;
+    border: 3px solid #31393D;
+    margin: 2px;
+    padding: 4px 16px;
+    border-radius: 4px;
+}
+
+.playback-control button:first {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.playback-control button.active {
+    background: #333B40;
+    color: #BAF35A;
+    display: inline-block;
+    border: 3px solid #252D32;
+    padding: 4px 16px;
+}

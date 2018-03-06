@@ -1,0 +1,15 @@
+.timer {
+    padding: 4px 16px;
+    background: #677075;
+    display: inline-block;
+    border: 2px solid #4C555A;
+}
+
+.timer div {
+    background: #536566;
+    color: #E3F4F0;
+    display: inline-block;
+    border: 2px solid #3E5051;
+    font-size: 23px;
+    padding: 4px 16px;
+}

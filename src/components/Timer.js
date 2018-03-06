@@ -1,28 +1,16 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import './Timer.css';
 
-class Timer extends React.Component {
-
-    componentDidMount() {
-        // if (!this.props.paused) {
-        //     this.loop = setInterval(this.props.onUpdate, 10);
-        // }
-    }
-
-    componentWillUnmount() {
-        // clearInterval(this.loop);
-    }
-
-    render() {
-        const { minutes, seconds, milliseconds } = this.props;
-        return (
+const Timer = ({ minutes, seconds, milliseconds, paused }) => {
+    return (
+        <div className="timer">
             <div>
-                <span>{minutes.toString()}</span>:
+                <span className="wide-pad">{minutes.toString()}</span>:
                 <span>{seconds.toString().padStart(2, '0')}</span>:
                 <span>{milliseconds.toString().padStart(2, '0')}</span>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default Timer;

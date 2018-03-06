@@ -19,5 +19,6 @@ export const resetTime = () => ({
 
 export const stopTime = () => {
     clearInterval(timer);
-    return { type: 'START_TIME' }
+    return { type: 'STOP_TIME' }
 }
+window.stopTime = stopTime;
