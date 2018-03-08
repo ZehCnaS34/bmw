@@ -10,10 +10,11 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 
 
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
 let store = createStore(
     bmw,
     applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 window.store = store;
 

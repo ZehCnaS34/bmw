@@ -7,6 +7,9 @@
 .piano-roll {
   display: flex;
   flex-direction: row;
+  max-height: 300px;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 
 .vertical-keyboard {

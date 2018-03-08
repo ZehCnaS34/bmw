@@ -5,7 +5,7 @@ import VerticalKeyboard from '../containers/VerticalKeyboard';
 
 const PlaybackControl = () => {
     return (
-        <div className="piano-role">
+        <div className="piano-roll">
             <VerticalKeyboard onMetric={() => {}} />
             <Timeline offset={0} />
             <Timeline offset={1} />

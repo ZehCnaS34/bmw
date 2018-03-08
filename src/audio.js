@@ -25,9 +25,9 @@ const FREQUENCIES = (() => {
                         data = map
                         fulfill(data[tag])
                     })
+                    .catch(reason => console.warn(reason));
             } else {
-                // fulfill(data[tag])
-                fulfill(data[tag])
+                fulfill(data[tag]);
             }
         });
     };
@@ -39,32 +39,40 @@ export class AudioEngine {
         this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         this.createOscillator();
+        this.oscillator.start();
         console.log('Engine Starting');
     }
 
-    createOscillator() {
+    createOscillator(frequency = 440) {
         this.oscillator = this.audioCtx.createOscillator();
-
+        this.gainNode = this.audioCtx.createGain();
         this.oscillator.type = 'sine';
-        this.oscillator.frequency.setValueAtTime(440, this.audioCtx.currentTime);
-        this.oscillator.connect(this.audioCtx.destination);
+        this.oscillator.frequency.setValueAtTime(frequency, this.audioCtx.currentTime);
+        this.gainNode.gain.setValueAtTime(0, this.audioCtx.currentTime);
+        this.oscillator.connect(this.gainNode);
+        this.gainNode.connect(this.audioCtx.destination);
     }
 
     getFreqency(note, level) {
         return FREQUENCIES(`${note.toUpperCase()}${level}`);
     }
 
+    // change params to frequncy
     start(note, level) {
         // const frequency = this.getFreqency(note, level);
         this.getFreqency(note, level).then(frequency => {
-            this.oscillator.start();
+            // this.oscillator.start();
+            this.gainNode.gain.setTargetAtTime(1, this.audioCtx.currentTime, 0.015);
+            // this.gainNode.gain.value = 0.5;
             this.oscillator.frequency.setValueAtTime(frequency, this.audioCtx.currentTime);
-            this.oscillator.onended = () => this.createOscillator();
+            this.oscillator.onended = () => this.createOscillator(frequency);
         });
     }
 
+    // change params to frequncy
     stop() {
-        this.oscillator.stop();
+        this.gainNode.gain.setTargetAtTime(0, this.audioCtx.currentTime, 0.015);
+        // this.oscillator.stop();
     }
 }
 
