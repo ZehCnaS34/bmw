@@ -3,15 +3,15 @@ import './PlaybackControl.css';
 import Timeline from '../containers/Timeline';
 import VerticalKeyboard from '../containers/VerticalKeyboard';
 
-const PlaybackControl = () => {
+const PianoRoll = ({updateHeight, height}) => {
     return (
         <div className="piano-roll">
-            <VerticalKeyboard onMetric={() => { }} />
+            <VerticalKeyboard onReady={updateHeight} />
             <div className="bars">
-                <Timeline />
+                <Timeline height={height} />
             </div>
         </div>
     );
 }
 
-export default PlaybackControl;
+export default PianoRoll;
