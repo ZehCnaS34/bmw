@@ -13,11 +13,9 @@ function clamp(floor, x, ciel) {
 /** 
  * This is a bar.
  */
-class Timeline extends React.Component {
-
+class Bar extends React.Component {
     constructor() {
         super();
-        this.state = { ready: false };
     }
 
     draw(canvas) {
@@ -33,32 +31,67 @@ class Timeline extends React.Component {
     }
 
     render() {
+        return (
+            <canvas ref={this.draw.bind(this)}
+                onClick={this.props.placeNote}
+                width={100}
+                height={260} />
+        )
+    }
+}
+
+
+
+class Timeline extends React.Component {
+
+    constructor() {
+        super();
+        this.state = { ready: false };
+    }
+
+    setTimeline(node) {
+        if (node != null && typeof node !== 'undefined') {
+            this.timeline = node;
+        }
+    }
+
+    render() {
+
         // 115 bpm
         // 44 measure.
         // 16 slots per bar
+
         let bps = 115 / 60,
             height = 0, x = 0, color = 'green';
-        if (typeof this.canvas !== 'undefined') {
-            // x = this.props.time / bps * this.canvas.height - bps * this.props.offset * this.canvas.height;
-            x = (this.props.time - bps * this.props.offset) * this.canvas.width / bps
-            height = this.canvas.height;
-            [x, color] = clamp(0, x, this.canvas.width);
+
+        if (typeof this.timeline !== 'undefined') {
+            let rect = this.timeline.getClientRects()[0]
+            let width = rect.width;
+            height = rect.height;
+            x = this.props.time * width / bps / 9;
         }
+
         return (
-            <div style={{ display: 'inline-block', position: 'relative', border: '1px solid #4C555A' }}>
+            <div ref={this.setTimeline.bind(this)} style={{ display: 'inline-block', position: 'relative', border: '1px solid #4C555A' }}>
                 <div style={{
+                    zIndex: 90,
                     position: 'absolute',
                     height: height,
                     background: color,
                     left: x,
                     width: '2px'
                 }}></div>
-                <canvas ref={this.draw.bind(this)}
-                    onClick={this.props.placeNote}
-                    width={100}
-                    height={260} />
+                <Bar />
+                <Bar />
+                <Bar />
+                <Bar />
+                <Bar />
+                <Bar />
+                <Bar />
+                <Bar />
+                <Bar />
             </div>
-        )
+        );
     }
 }
 

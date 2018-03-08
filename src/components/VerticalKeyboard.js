@@ -6,18 +6,18 @@ import Timeline from '../containers/Timeline';
 const Octave = ({ noteStart, noteEnd, level }) => {
     return (
         <div className="vk-octave">
-            <div onMouseDown={() => noteStart('b', level)} onMouseUp={() => noteEnd('b', level)} className="vko-note white"></div>
-            <div onMouseDown={() => noteStart('a#', level)} onMouseUp={() => noteEnd('a#', level)} className="vko-note black"></div>
-            <div onMouseDown={() => noteStart('a', level)} onMouseUp={() => noteEnd('a', level)} className="vko-note white"></div>
-            <div onMouseDown={() => noteStart('g#', level)} onMouseUp={() => noteEnd('g#', level)} className="vko-note black"></div>
-            <div onMouseDown={() => noteStart('g', level)} onMouseUp={() => noteEnd('g', level)} className="vko-note white"></div>
-            <div onMouseDown={() => noteStart('f#', level)} onMouseUp={() => noteEnd('f#', level)} className="vko-note black"></div>
-            <div onMouseDown={() => noteStart('f', level)} onMouseUp={() => noteEnd('f', level)} className="vko-note white"></div>
-            <div onMouseDown={() => noteStart('e', level)} onMouseUp={() => noteEnd('e', level)} className="vko-note white"></div>
-            <div onMouseDown={() => noteStart('d#', level)} onMouseUp={() => noteEnd('d#', level)} className="vko-note black"></div>
-            <div onMouseDown={() => noteStart('d', level)} onMouseUp={() => noteEnd('d', level)} className="vko-note white"></div>
-            <div onMouseDown={() => noteStart('c#', level)} onMouseUp={() => noteEnd('c#', level)} className="vko-note black"></div>
-            <div onMouseDown={() => noteStart('c', level)} onMouseUp={() => noteEnd('c', level)} className="vko-note white"></div>
+            <div onMouseDown={() => noteStart('b', level)} onMouseUp={() => noteEnd('b', level)} className={`vko-note white`}></div>
+            <div onMouseDown={() => noteStart('a#', level)} onMouseUp={() => noteEnd('a#', level)} className={`vko-note black`}></div>
+            <div onMouseDown={() => noteStart('a', level)} onMouseUp={() => noteEnd('a', level)} className={`vko-note white`}></div>
+            <div onMouseDown={() => noteStart('g#', level)} onMouseUp={() => noteEnd('g#', level)} className={`vko-note black`}></div>
+            <div onMouseDown={() => noteStart('g', level)} onMouseUp={() => noteEnd('g', level)} className={`vko-note white`}></div>
+            <div onMouseDown={() => noteStart('f#', level)} onMouseUp={() => noteEnd('f#', level)} className={`vko-note black`}></div>
+            <div onMouseDown={() => noteStart('f', level)} onMouseUp={() => noteEnd('f', level)} className={`vko-note white`}></div>
+            <div onMouseDown={() => noteStart('e', level)} onMouseUp={() => noteEnd('e', level)} className={`vko-note white`}></div>
+            <div onMouseDown={() => noteStart('d#', level)} onMouseUp={() => noteEnd('d#', level)} className={`vko-note black`}></div>
+            <div onMouseDown={() => noteStart('d', level)} onMouseUp={() => noteEnd('d', level)} className={`vko-note white`}></div>
+            <div onMouseDown={() => noteStart('c#', level)} onMouseUp={() => noteEnd('c#', level)} className={`vko-note black`}></div>
+            <div onMouseDown={() => noteStart('c', level)} onMouseUp={() => noteEnd('c', level)} className={`vko-note white`}></div>
         </div>
     )
 }

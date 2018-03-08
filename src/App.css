@@ -14,7 +14,7 @@
 
 .vertical-keyboard {
   background: white;
-  max-width: calc(var(--unit) * 6);
+  max-width: calc(var(--unit) * 9);
   display: inline-block;
 }
 
@@ -26,6 +26,7 @@
 
 .vk-octave .vko-note {
   position: absolute;
+  user-select: none;
 }
 
 .vk-octave .vko-note::after {
