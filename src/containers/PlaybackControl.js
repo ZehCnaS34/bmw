@@ -9,6 +9,9 @@ export default connect(
     dispatch => ({
         stopTime: () => dispatch(stopTime()),
         startTime: () => dispatch(startTime()),
-        resetTime: () => dispatch(resetTime())
+        resetTime: () => {
+            dispatch(stopTime());
+            dispatch(resetTime());
+        }
     })
 )(PlaybackControl)

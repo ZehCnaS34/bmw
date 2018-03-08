@@ -22,3 +22,12 @@ export const stopTime = () => {
     return { type: 'STOP_TIME' }
 }
 window.stopTime = stopTime;
+
+export const noteStart = (note, level) => ({
+    type: 'AUDIO_START',
+    note, level
+});
+export const noteEnd = (note, level) => ({
+    type: 'AUDIO_END',
+    note, level
+});

@@ -1,5 +1,7 @@
 import TIME from '../time';
+import AUDIO_ENGINE from '../audio';
 import { combineReducers } from 'redux';
+import { Map } from 'immutable';
 
 const playbackInitalState = {
     time: 0,
@@ -24,6 +26,22 @@ function playback(state = playbackInitalState, action) {
     }
 }
 
+function audio(state = Map(), action) {
+    switch (action.type) {
+        case 'AUDIO_START':
+            AUDIO_ENGINE.start(action.note, action.level);
+            return state.set(action.note, action.level);
+        case 'AUDIO_END':
+            AUDIO_ENGINE.stop(action.note);
+            return state.remove(action.note);
+        default:
+            return state;
+    }
+
+    return state;
+}
+
 export default combineReducers({
-    playback
+    playback,
+    audio
 })

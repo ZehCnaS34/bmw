@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import "./App.css";
 
 import Timer from './containers/Timer';
 import PlaybackControl from './containers/PlaybackControl';
-import Timeline from './containers/Timeline';
+import PianoRoll from './containers/PianoRoll';
 
 class App extends Component {
   render() {
@@ -10,9 +11,7 @@ class App extends Component {
       <div className="App">
         <Timer />
         <PlaybackControl />
-        {
-          (new Array(6).fill(0)).map((_, i) => <Timeline offset={i} />)
-        }
+        <PianoRoll />
       </div>
     );
   }

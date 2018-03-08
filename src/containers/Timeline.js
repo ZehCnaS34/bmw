@@ -6,5 +6,9 @@ export default connect(
     ({ playback }) => {
         return { time: playback.time, paused: playback.paused };
     },
-    dispatch => ({})
+    dispatch => ({
+        placeNote(notePayload) {
+            console.log('hm')
+        }
+    })
 )(Timeline)

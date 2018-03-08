@@ -1,6 +1,5 @@
 import React from 'react';
 import './PlaybackControl.css';
-import { PassThrough } from 'stream';
 
 const PlaybackControl = ({ startTime, stopTime, paused, resetTime }) => {
     return (
@@ -9,7 +8,7 @@ const PlaybackControl = ({ startTime, stopTime, paused, resetTime }) => {
                 <button
                     className={paused ? '' : 'active'}
                     onClick={paused ? startTime : stopTime}>{paused ? 'start' : 'pause'}</button>
-                <button onClick={resetTime}>stop</button>
+                <button onClick={resetTime}>{paused ? 'reset' : 'stop'}</button>
             </div>
         </div>
     );
