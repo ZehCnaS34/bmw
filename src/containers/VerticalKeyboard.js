@@ -8,11 +8,9 @@ export default connect(
     }),
     dispatch => ({
         noteStart(note, level) { 
-            console.log('start', note, level);
             dispatch(noteStart(note, level));
         },
         noteEnd(note, level) {
-            console.log('end', note, level)
             dispatch(noteEnd(note, level));
         }
     })

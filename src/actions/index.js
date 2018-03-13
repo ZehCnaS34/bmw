@@ -35,3 +35,15 @@ export const noteEnd = (note, level) => ({
 export const updatePianoRollHeight = (height) => ({
     type: 'PIANO_ROLL_SET_HEIGHT', height
 })
+
+export const verticalKeyboardUpOctave = () => ({
+    type: 'VERTICAL_KEYBOARD_UP_OCTAVE',
+});
+export const verticalKeyboardDownOctave = () => ({
+    type: 'VERTICAL_KEYBOARD_DOWN_OCTAVE'
+});
+
+export const changeInstrument = (instrument) => ({
+    type: 'CHANGE_INSTRUMENT',
+    instrument
+})

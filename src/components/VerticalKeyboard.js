@@ -3,38 +3,76 @@ import './PlaybackControl.css';
 import Timeline from '../containers/Timeline';
 
 
-const Octave = ({ noteStart, noteEnd, level }) => {
-    return (
-        <div className="vk-octave">
-            <div onMouseDown={() => noteStart('b', level)} onMouseUp={() => noteEnd('b', level)} className={`vko-note white`}></div>
-            <div onMouseDown={() => noteStart('a#', level)} onMouseUp={() => noteEnd('a#', level)} className={`vko-note black`}></div>
-            <div onMouseDown={() => noteStart('a', level)} onMouseUp={() => noteEnd('a', level)} className={`vko-note white`}></div>
-            <div onMouseDown={() => noteStart('g#', level)} onMouseUp={() => noteEnd('g#', level)} className={`vko-note black`}></div>
-            <div onMouseDown={() => noteStart('g', level)} onMouseUp={() => noteEnd('g', level)} className={`vko-note white`}></div>
-            <div onMouseDown={() => noteStart('f#', level)} onMouseUp={() => noteEnd('f#', level)} className={`vko-note black`}></div>
-            <div onMouseDown={() => noteStart('f', level)} onMouseUp={() => noteEnd('f', level)} className={`vko-note white`}></div>
-            <div onMouseDown={() => noteStart('e', level)} onMouseUp={() => noteEnd('e', level)} className={`vko-note white`}></div>
-            <div onMouseDown={() => noteStart('d#', level)} onMouseUp={() => noteEnd('d#', level)} className={`vko-note black`}></div>
-            <div onMouseDown={() => noteStart('d', level)} onMouseUp={() => noteEnd('d', level)} className={`vko-note white`}></div>
-            <div onMouseDown={() => noteStart('c#', level)} onMouseUp={() => noteEnd('c#', level)} className={`vko-note black`}></div>
-            <div onMouseDown={() => noteStart('c', level)} onMouseUp={() => noteEnd('c', level)} className={`vko-note white`}></div>
-        </div>
-    )
+class Octave extends React.Component {
+    constructor(props) {
+        super(props);
+        this.mouseDown = false;
+    }
+
+    clickStart(note, octave) {
+        return () => {
+            this.mouseDown = true
+            this.props.noteStart(note, octave);
+        }
+    }
+
+    clickEnd(note, octave) {
+        return () => {
+            this.mouseDown = false;
+            this.props.noteEnd(note, octave);
+        }
+    }
+
+    overStart(note, octave) {
+        return () => {
+            if (this.mouseDown) {
+                this.props.noteStart(note, octave);
+            }
+        }
+    }
+
+    overEnd(note, octave) {
+        return () => {
+            if (this.mouseDown) {
+                this.props.noteEnd(note, octave);
+            }
+        }
+    }
+
+    render() {
+        const { noteStart, noteEnd, level } = this.props;
+        return (
+            <div className="vk-octave">
+                <div onMouseEnter={this.overStart('b', level)}  onMouseLeave={this.overEnd('b', level)}   onMouseDown={this.clickStart('b', level)}  onMouseUp={this.clickEnd('b', level)} className={`vko-note white`}></div>
+                <div onMouseEnter={this.overStart('a#', level)} onMouseLeave={this.overEnd('a#', level)} onMouseDown={this.clickStart('a#', level)} onMouseUp={this.clickEnd('a#', level)} className={`vko-note black`}></div>
+                <div onMouseEnter={this.overStart('a', level)}  onMouseLeave={this.overEnd('a', level)}   onMouseDown={this.clickStart('a', level)}  onMouseUp={this.clickEnd('a', level)} className={`vko-note white`}></div>
+                <div onMouseEnter={this.overStart('g#', level)} onMouseLeave={this.overEnd('g#', level)} onMouseDown={this.clickStart('g#', level)} onMouseUp={this.clickEnd('g#', level)} className={`vko-note black`}></div>
+                <div onMouseEnter={this.overStart('g', level)}  onMouseLeave={this.overEnd('g', level)}   onMouseDown={this.clickStart('g', level)}  onMouseUp={this.clickEnd('g', level)} className={`vko-note white`}></div>
+                <div onMouseEnter={this.overStart('f#', level)} onMouseLeave={this.overEnd('f#', level)} onMouseDown={this.clickStart('f#', level)} onMouseUp={this.clickEnd('f#', level)} className={`vko-note black`}></div>
+                <div onMouseEnter={this.overStart('f', level)}  onMouseLeave={this.overEnd('f', level)}   onMouseDown={this.clickStart('f', level)}  onMouseUp={this.clickEnd('f', level)} className={`vko-note white`}></div>
+                <div onMouseEnter={this.overStart('e', level)}  onMouseLeave={this.overEnd('e', level)}   onMouseDown={this.clickStart('e', level)}  onMouseUp={this.clickEnd('e', level)} className={`vko-note white`}></div>
+                <div onMouseEnter={this.overStart('d#', level)} onMouseLeave={this.overEnd('d#', level)} onMouseDown={this.clickStart('d#', level)} onMouseUp={this.clickEnd('d#', level)} className={`vko-note black`}></div>
+                <div onMouseEnter={this.overStart('d', level)}  onMouseLeave={this.overEnd('d', level)}   onMouseDown={this.clickStart('d', level)}  onMouseUp={this.clickEnd('d', level)} className={`vko-note white`}></div>
+                <div onMouseEnter={this.overStart('c#', level)} onMouseLeave={this.overEnd('c#', level)} onMouseDown={this.clickStart('c#', level)} onMouseUp={this.clickEnd('c#', level)} className={`vko-note black`}></div>
+                <div onMouseEnter={this.overStart('c', level)}  onMouseLeave={this.overEnd('c', level)}   onMouseDown={this.clickStart('c', level)}  onMouseUp={this.clickEnd('c', level)} className={`vko-note white`}></div>
+            </div>
+        )
+    }
 }
 
 
 class VerticalKeyboard extends React.Component {
     nodeReady(node) {
-        if (typeof node === 'undefined') return;
-        window.vk = node;
-        const rect = node.getClientRects()[0];
-        this.props.onReady(node.scrollHeight);
-        node.focus();
+        if (typeof node !== 'undefined' && node !== null) {
+            this.keyboard = node;
+        }
+        const rect = this.keyboard.getClientRects()[0];
+        this.props.onReady(this.keyboard.scrollHeight);
+        this.keyboard.focus();
     }
 
     handleKeyDown(e) {
         const { noteStart, noteEnd } = this.props;
-        console.log(e.keyCode)
         switch (e.keyCode) {
             case 81: // a
                 noteStart('C', this.props.octave)
@@ -77,7 +115,6 @@ class VerticalKeyboard extends React.Component {
     }
 
     handleKeyUp(e) {
-        console.log(e.keyCode);
         const { noteStart, noteEnd } = this.props;
         switch (e.keyCode) {
             case 81: // a

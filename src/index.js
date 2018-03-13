@@ -6,7 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import bmw from './reducers';
 
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 
@@ -14,9 +14,14 @@ const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_
 
 let store = createStore(
     bmw,
-    applyMiddleware(thunk),
+    compose(
+        applyMiddleware(thunk),
+        devTools,
+    )
 );
 window.store = store;
+
+// store.dispatch(init);
 
 ReactDOM.render(
     <Provider store={store}>

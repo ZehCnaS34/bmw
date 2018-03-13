@@ -29,13 +29,15 @@ function playback(state = playbackInitalState, action) {
     }
 }
 
-function audio(state = Map(), action) {
+function audio(state = Map({"instrument": "Sine"}), action) {
     switch (action.type) {
+        case 'CHANGE_INSTRUMENT':
+            return state.set("instrument", action.instrument);
         case 'AUDIO_START':
-            AUDIO_ENGINE.start(action.note, action.level);
+            AUDIO_ENGINE.start(state.get("instrument"), action.note, action.level);
             return state.set("" + action.note + action.level, true);
         case 'AUDIO_END':
-            AUDIO_ENGINE.stop(action.note, action.level);
+            AUDIO_ENGINE.stop(state.get("instrument"), action.note, action.level);
             return state.remove("" + action.note + action.level);
         default:
             return state;

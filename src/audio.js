@@ -1,4 +1,3 @@
-// import { Map } from 'immutable';
 import notes from './data.csv';
 
 function csvToMap(data) {
@@ -34,71 +33,128 @@ const FREQUENCIES = (() => {
 })();
 
 
+class Instrument {
+    constructor(ae) {
+        this.audioEngine = ae;
+        this.ctx = ae.ctx;
+
+        this.displayName = null;
+        this.sourceConstructor = null;
+        this.channels = {};
+    }
+
+    get sources() {
+        return Object.values(this.channels).map(({ source }) => source);
+    }
+
+    get name() {
+        if (this.displayName === null) {
+            throw ("Ther instrument does not have a name");
+        }
+        return this.displayName;
+    }
+
+    unMute(frequency) {
+        if (!(frequency in this.channels)) {
+            this.channels[frequency] = this.createChannel();
+        }
+        const channel = this.channels[frequency];
+        channel.source.frequency.setValueAtTime(frequency, this.ctx.currentTime);
+        channel.gain.gain.setTargetAtTime(0.5, this.ctx.currentTime, 0.015);
+    }
+
+    mute(frequency) {
+        if (!(frequency in this.channels)) {
+            this.channels[frequency] = this.createChannel();
+        }
+        const channel = this.channels[frequency];
+        channel.gain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015);
+    }
+
+    createChannel(...args) {
+        const { ctx } = this;
+        window.chan = this;
+        const channel = { source: this.sourceConstructor(), gain: ctx.createGain() };
+
+        channel.source.connect(channel.gain);
+        channel.gain.connect(this.ctx.destination);
+        channel.gain.gain.setValueAtTime(0, this.ctx.currentTime);
+        channel.source.start();
+        return channel;
+    }
+}
+
+class Sine extends Instrument {
+    constructor(audioEngine) {
+        super(audioEngine);
+        this.displayName = "Sine";
+        this.sourceConstructor = this.ctx.createOscillator.bind(this.ctx);
+    }
+}
+
+class Sawtooth extends Instrument {
+    constructor(audioEngine) {
+        super(audioEngine);
+        this.displayName = "Sawtooth";
+        this.sourceConstructor = function () {
+            let source = audioEngine.ctx.createOscillator()
+            source.type = 'sawtooth';
+            return source;
+        }.bind(this.ctx);
+    }
+}
+
 export class AudioEngine {
     constructor() {
         this.ctx = new (window.AudioContext || window.webkitAudioContext)();
 
         this.frequencies = {}
-        window.frequencies = this.frequencies;
+        this.instruments = {};
         console.log('Engine Starting');
     }
 
-    setInstrument(instrument) {
+    laodInstruments(...instruments) {
+        for (let instrument of instruments) {
+            let inst = new instrument(this);
+            this.instruments[inst.name] = inst;
+        }
     }
 
-    createOscillator(frequency = 440) {
-        const { ctx } = this;
-        this.frequencies[frequency] = { oscillator: ctx.createOscillator(), gain: ctx.createGain() }
-
-        window.frequencies = this.frequencies;
-        const { oscillator, gain } = this.frequencies[frequency];
-        oscillator.connect(gain);
-        gain.connect(this.ctx.destination);
-        gain.gain.setValueAtTime(0, this.ctx.currentTime);
-        oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
-        oscillator.start();
-        // instrument type?
-        oscillator.type = 'sawtooth';
-        // this.oscillator.frequency.setValueAtTime(frequency, this.ctx.currentTime);
-        // this.gainNode.gain.setValueAtTime(0, this.ctx.currentTime);
-        // this.oscillator.connect(this.gainNode);
+    setInstrument(instrumentName) {
     }
+
 
     getFreqency(note, level) {
         return FREQUENCIES(`${note.toUpperCase()}${level}`);
     }
 
     // change params to frequncy
-    start(note, level) {
+    start(instrumentName, note, level) {
         // const frequency = this.getFreqency(note, level);
         this.getFreqency(note, level).then(frequency => {
-            if (!(frequency in this.frequencies)) {
-                console.log('creating oscillator')
-                this.createOscillator(frequency);
-            }
-
-            const payload = this.frequencies[frequency];
-            console.log(payload)
-
-            // this.oscillator.start();
-            payload.gain.gain.setTargetAtTime(0.5, this.ctx.currentTime, 0.015);
-            payload.oscillator.frequency.setValueAtTime(frequency, this.ctx.currentTime);
-            payload.oscillator.onended = () => this.createOscillator(frequency);
+            const instrument = this.instruments[instrumentName];
+            instrument.unMute(frequency);
         });
     }
 
     // change params to frequncy
-    stop(note, level) {
+    stop(instrumentName, note, level) {
         this.getFreqency(note, level).then(frequency => {
-            if (!(frequency in this.frequencies)) return;
-            const { gain } = this.frequencies[frequency];
-            console.log(gain)
-            gain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015);
+            const instrument = this.instruments[instrumentName];
+            instrument.mute(frequency)
         })
-        // this.oscillator.stop();
     }
 }
 
 
 const AUDIO_ENGINE = new AudioEngine();
+
+
+AUDIO_ENGINE.laodInstruments(
+    Sine,
+    Sawtooth
+)
+
+window.AE = AUDIO_ENGINE;
+
 export default AUDIO_ENGINE;
