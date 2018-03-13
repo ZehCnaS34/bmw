@@ -10,6 +10,8 @@ function clamp(floor, x, ciel) {
     }
 }
 
+const BARS = new Array(100).fill(0);
+
 /** 
  * This is a bar.
  */
@@ -24,9 +26,14 @@ class Bar extends React.Component {
         ctx.fillStyle = '#34444E';
         ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         let sixtheenth = this.canvas.width / 16;
-        ctx.fillStyle = "#304040";
         for (let x = 0; x < 16; x++) {
-            ctx.fillRect(sixtheenth * x, 0, 1, this.canvas.height);
+            if (x === 0) {
+                ctx.fillStyle = "orange";
+                ctx.fillRect(sixtheenth * x, 0, 1, this.canvas.height);
+            } else {
+                ctx.fillStyle = "#304040";
+                ctx.fillRect(sixtheenth * x, 0, 1, this.canvas.height);
+            }
         }
     }
 
@@ -34,8 +41,8 @@ class Bar extends React.Component {
         return (
             <canvas ref={this.draw.bind(this)}
                 onClick={this.props.placeNote}
-                width={100}
-                height={260} />
+                width={this.props.width}
+                height={this.props.height} />
         )
     }
 }
@@ -50,7 +57,7 @@ class Timeline extends React.Component {
     }
 
     setTimeline(node) {
-        if (node != null && typeof node !== 'undefined') {
+        if (node !== null && typeof node !== 'undefined') {
             this.timeline = node;
         }
     }
@@ -63,33 +70,32 @@ class Timeline extends React.Component {
 
         let bps = 115 / 60,
             height = 0, x = 0, color = 'green';
+        const bars = 3;
+        const bpm = 4;
+        const barTime = 1 / bps * bpm;
+        const end = barTime * bars
 
         if (typeof this.timeline !== 'undefined') {
             let rect = this.timeline.getClientRects()[0]
             let width = rect.width;
-            height = rect.height;
-            x = this.props.time * width / bps / 9;
+            x = this.props.time * width / end
+        }
+
+        if (this.props.time >= end) {
+            this.props.resetPlayback();
         }
 
         return (
-            <div ref={this.setTimeline.bind(this)} style={{ display: 'inline-block', position: 'relative', border: '1px solid #4C555A' }}>
+            <div ref={this.setTimeline.bind(this)} className="timeline">
                 <div style={{
                     zIndex: 90,
                     position: 'absolute',
-                    height: height,
-                    background: color,
+                    height: this.props.height,
+                    background: 'red',
                     left: x,
                     width: '2px'
                 }}></div>
-                <Bar />
-                <Bar />
-                <Bar />
-                <Bar />
-                <Bar />
-                <Bar />
-                <Bar />
-                <Bar />
-                <Bar />
+                {BARS.slice(0, bars).map((_, i) => <Bar key={i} height={this.props.height} width={400} offset={i} />)}
             </div>
         );
     }

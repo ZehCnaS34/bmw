@@ -4,6 +4,8 @@ const initialState = {
 
 function pianoRoll(state = initialState, action) {
     switch (action.type) {
+        case 'PIANO_ROLL_SET_HEIGHT':
+            return { ...state, height: action.height };
         default:
             return state;
     }

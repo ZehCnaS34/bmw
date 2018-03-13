@@ -31,3 +31,7 @@ export const noteEnd = (note, level) => ({
     type: 'AUDIO_END',
     note, level
 });
+
+export const updatePianoRollHeight = (height) => ({
+    type: 'PIANO_ROLL_SET_HEIGHT', height
+})

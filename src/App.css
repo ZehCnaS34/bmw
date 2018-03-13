@@ -29,6 +29,10 @@
   user-select: none;
 }
 
+.vk-octave .vko-note:hover {
+  background-color: darkgray;
+}
+
 .vk-octave .vko-note::after {
   content: "";
 }
@@ -62,3 +66,15 @@
 .vko-note:nth-child(10) { top: calc(20 * var(--unit)); }
 .vko-note:nth-child(11) { top: calc(23 * var(--unit)); }
 .vko-note:nth-child(12) { top: calc(24 * var(--unit)); }
+
+.timeline {
+   display: flex; 
+   position: relative;
+   border: 1px solid #4C555A;
+   overflow-x: scroll;
+}
+
+.timeline canvas {
+  flex: 1;
+  display: inline-block;
+}

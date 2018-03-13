@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-// import { tickTime, startTime } from '../actions';
+import { resetTime } from '../actions';
 import Timeline from '../components/Timeline';
 
 export default connect(
@@ -9,6 +9,9 @@ export default connect(
     dispatch => ({
         placeNote(notePayload) {
             console.log('hm')
+        },
+        resetPlayback() {
+            dispatch(resetTime())
         }
     })
 )(Timeline)
