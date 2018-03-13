@@ -39,22 +39,31 @@ class Octave extends React.Component {
         }
     }
 
+    eventObject(note, octave) {
+        return {
+            onMouseEnter: this.overStart(note, octave),
+            onMouseLeave: this.overEnd(note, octave),
+            onMouseDown: this.clickStart(note, octave),
+            onMouseUp: this.clickEnd(note, octave)
+        }
+    }
+
     render() {
         const { noteStart, noteEnd, level } = this.props;
         return (
             <div className="vk-octave">
-                <div onMouseEnter={this.overStart('b', level)}  onMouseLeave={this.overEnd('b', level)}   onMouseDown={this.clickStart('b', level)}  onMouseUp={this.clickEnd('b', level)} className={`vko-note white`}></div>
-                <div onMouseEnter={this.overStart('a#', level)} onMouseLeave={this.overEnd('a#', level)} onMouseDown={this.clickStart('a#', level)} onMouseUp={this.clickEnd('a#', level)} className={`vko-note black`}></div>
-                <div onMouseEnter={this.overStart('a', level)}  onMouseLeave={this.overEnd('a', level)}   onMouseDown={this.clickStart('a', level)}  onMouseUp={this.clickEnd('a', level)} className={`vko-note white`}></div>
-                <div onMouseEnter={this.overStart('g#', level)} onMouseLeave={this.overEnd('g#', level)} onMouseDown={this.clickStart('g#', level)} onMouseUp={this.clickEnd('g#', level)} className={`vko-note black`}></div>
-                <div onMouseEnter={this.overStart('g', level)}  onMouseLeave={this.overEnd('g', level)}   onMouseDown={this.clickStart('g', level)}  onMouseUp={this.clickEnd('g', level)} className={`vko-note white`}></div>
-                <div onMouseEnter={this.overStart('f#', level)} onMouseLeave={this.overEnd('f#', level)} onMouseDown={this.clickStart('f#', level)} onMouseUp={this.clickEnd('f#', level)} className={`vko-note black`}></div>
-                <div onMouseEnter={this.overStart('f', level)}  onMouseLeave={this.overEnd('f', level)}   onMouseDown={this.clickStart('f', level)}  onMouseUp={this.clickEnd('f', level)} className={`vko-note white`}></div>
-                <div onMouseEnter={this.overStart('e', level)}  onMouseLeave={this.overEnd('e', level)}   onMouseDown={this.clickStart('e', level)}  onMouseUp={this.clickEnd('e', level)} className={`vko-note white`}></div>
-                <div onMouseEnter={this.overStart('d#', level)} onMouseLeave={this.overEnd('d#', level)} onMouseDown={this.clickStart('d#', level)} onMouseUp={this.clickEnd('d#', level)} className={`vko-note black`}></div>
-                <div onMouseEnter={this.overStart('d', level)}  onMouseLeave={this.overEnd('d', level)}   onMouseDown={this.clickStart('d', level)}  onMouseUp={this.clickEnd('d', level)} className={`vko-note white`}></div>
-                <div onMouseEnter={this.overStart('c#', level)} onMouseLeave={this.overEnd('c#', level)} onMouseDown={this.clickStart('c#', level)} onMouseUp={this.clickEnd('c#', level)} className={`vko-note black`}></div>
-                <div onMouseEnter={this.overStart('c', level)}  onMouseLeave={this.overEnd('c', level)}   onMouseDown={this.clickStart('c', level)}  onMouseUp={this.clickEnd('c', level)} className={`vko-note white`}></div>
+                <div {...this.eventObject('b', level)} className={`vko-note white`}></div>
+                <div {...this.eventObject('a#', level)} className={`vko-note black`}></div>
+                <div {...this.eventObject('a', level)}  className={`vko-note white`}></div>
+                <div {...this.eventObject('g#', level)} className={`vko-note black`}></div>
+                <div {...this.eventObject('g', level)} className={`vko-note white`}></div>
+                <div {...this.eventObject('f#', level)} className={`vko-note black`}></div>
+                <div {...this.eventObject('f', level)} className={`vko-note white`}></div>
+                <div {...this.eventObject('e', level)} className={`vko-note white`}></div>
+                <div {...this.eventObject('d#', level)} className={`vko-note black`}></div>
+                <div {...this.eventObject('d', level)} className={`vko-note white`}></div>
+                <div {...this.eventObject('c#', level)} className={`vko-note black`}></div>
+                <div {...this.eventObject('c', level)} className={`vko-note white`}></div>
             </div>
         )
     }

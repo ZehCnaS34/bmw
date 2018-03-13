@@ -11,7 +11,7 @@ const StepButton = ({ children, onMinus, onPlus }) => {
     )
 }
 
-const PlaybackControl = ({ startTime, stopTime, paused, resetTime, octave, upOctave, downOctave }) => {
+const PlaybackControl = ({ startTime, stopTime, paused, resetTime, octave, upOctave, downOctave, setSawtooth, setSine }) => {
     return (
         <div className="playback-control">
             <div>
@@ -22,6 +22,8 @@ const PlaybackControl = ({ startTime, stopTime, paused, resetTime, octave, upOct
                 <StepButton onMinus={downOctave} onPlus={upOctave}>
                     {octave}
                 </StepButton>
+                <button onClick={setSawtooth}>Sawtooth</button>
+                <button onClick={setSine}>Sine</button>
             </div>
         </div>
     );

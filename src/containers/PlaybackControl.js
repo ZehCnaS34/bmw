@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { startTime, stopTime, resetTime, verticalKeyboardDownOctave, verticalKeyboardUpOctave } from '../actions';
+import { startTime, stopTime, resetTime, verticalKeyboardDownOctave, verticalKeyboardUpOctave, changeInstrument } from '../actions';
 import PlaybackControl from '../components/PlaybackControl';
 
 export default connect(
@@ -10,6 +10,8 @@ export default connect(
         };
     },
     dispatch => ({
+        setSine: () => dispatch(changeInstrument("Sine")),
+        setSawtooth: () => dispatch(changeInstrument("Sawtooth")),
         upOctave: () => dispatch(verticalKeyboardUpOctave()),
         downOctave: () => dispatch(verticalKeyboardDownOctave()),
         stopTime: () => dispatch(stopTime()),
