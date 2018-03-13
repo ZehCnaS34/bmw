@@ -1,4 +1,4 @@
-
+// import { Map } from 'immutable';
 import notes from './data.csv';
 
 function csvToMap(data) {
@@ -38,8 +38,8 @@ export class AudioEngine {
     constructor() {
         this.ctx = new (window.AudioContext || window.webkitAudioContext)();
 
-        this.createOscillator();
-        this.oscillator.start();
+        this.frequencies = {}
+        window.frequencies = this.frequencies;
         console.log('Engine Starting');
     }
 
@@ -47,13 +47,21 @@ export class AudioEngine {
     }
 
     createOscillator(frequency = 440) {
-        this.oscillator = this.ctx.createOscillator();
-        this.gainNode = this.ctx.createGain();
-        this.oscillator.type = 'sine';
-        this.oscillator.frequency.setValueAtTime(frequency, this.ctx.currentTime);
-        this.gainNode.gain.setValueAtTime(0, this.ctx.currentTime);
-        this.oscillator.connect(this.gainNode);
-        this.gainNode.connect(this.ctx.destination);
+        const { ctx } = this;
+        this.frequencies[frequency] = { oscillator: ctx.createOscillator(), gain: ctx.createGain() }
+
+        window.frequencies = this.frequencies;
+        const { oscillator, gain } = this.frequencies[frequency];
+        oscillator.connect(gain);
+        gain.connect(this.ctx.destination);
+        gain.gain.setValueAtTime(0, this.ctx.currentTime);
+        oscillator.frequency.setValueAtTime(frequency, ctx.currentTime);
+        oscillator.start();
+        // instrument type?
+        oscillator.type = 'sawtooth';
+        // this.oscillator.frequency.setValueAtTime(frequency, this.ctx.currentTime);
+        // this.gainNode.gain.setValueAtTime(0, this.ctx.currentTime);
+        // this.oscillator.connect(this.gainNode);
     }
 
     getFreqency(note, level) {
@@ -64,17 +72,29 @@ export class AudioEngine {
     start(note, level) {
         // const frequency = this.getFreqency(note, level);
         this.getFreqency(note, level).then(frequency => {
+            if (!(frequency in this.frequencies)) {
+                console.log('creating oscillator')
+                this.createOscillator(frequency);
+            }
+
+            const payload = this.frequencies[frequency];
+            console.log(payload)
+
             // this.oscillator.start();
-            this.gainNode.gain.setTargetAtTime(0.5, this.ctx.currentTime, 0.10);
-            // this.gainNode.gain.value = 0.5;
-            this.oscillator.frequency.setValueAtTime(frequency, this.ctx.currentTime);
-            this.oscillator.onended = () => this.createOscillator(frequency);
+            payload.gain.gain.setTargetAtTime(0.5, this.ctx.currentTime, 0.015);
+            payload.oscillator.frequency.setValueAtTime(frequency, this.ctx.currentTime);
+            payload.oscillator.onended = () => this.createOscillator(frequency);
         });
     }
 
     // change params to frequncy
-    stop() {
-        this.gainNode.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015);
+    stop(note, level) {
+        this.getFreqency(note, level).then(frequency => {
+            if (!(frequency in this.frequencies)) return;
+            const { gain } = this.frequencies[frequency];
+            console.log(gain)
+            gain.gain.setTargetAtTime(0, this.ctx.currentTime, 0.015);
+        })
         // this.oscillator.stop();
     }
 }

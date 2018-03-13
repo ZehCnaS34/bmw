@@ -37,41 +37,41 @@ class VerticalKeyboard extends React.Component {
         console.log(e.keyCode)
         switch (e.keyCode) {
             case 81: // a
-                noteStart('C', 4)
+                noteStart('C', this.props.octave)
                 break;
             case 50: // a
-                noteStart('C#', 4)
+                noteStart('C#', this.props.octave)
                 break;
             case 87: // a
-                noteStart('D', 4)
+                noteStart('D', this.props.octave)
                 break;
             case 51: // a
-                noteStart('D#', 4)
+                noteStart('D#', this.props.octave)
                 break;
             case 69: // a
-                noteStart('E', 4)
+                noteStart('E', this.props.octave)
                 break;
 
             case 82: // a
-                noteStart('F', 4)
+                noteStart('F', this.props.octave)
                 break;
             case 53: // a
-                noteStart('F#', 4)
+                noteStart('F#', this.props.octave)
                 break;
             case 84: // a
-                noteStart('G', 4)
+                noteStart('G', this.props.octave)
                 break;
             case 54: // a
-                noteStart('G#', 4)
+                noteStart('G#', this.props.octave)
                 break;
             case 89: // a
-                noteStart('A', 4)
+                noteStart('A', this.props.octave)
                 break;
             case 55: // a
-                noteStart('A#', 4)
+                noteStart('A#', this.props.octave)
                 break;
             case 85: // a
-                noteStart('B', 4)
+                noteStart('B', this.props.octave)
                 break;
         }
     }
@@ -81,41 +81,41 @@ class VerticalKeyboard extends React.Component {
         const { noteStart, noteEnd } = this.props;
         switch (e.keyCode) {
             case 81: // a
-                noteEnd('C', 4)
+                noteEnd('C', this.props.octave)
                 break;
             case 50: // a
-                noteEnd('C#', 4)
+                noteEnd('C#', this.props.octave)
                 break;
             case 87: // a
-                noteEnd('D', 4)
+                noteEnd('D', this.props.octave)
                 break;
             case 51: // a
-                noteEnd('D#', 4)
+                noteEnd('D#', this.props.octave)
                 break;
             case 69: // a
-                noteEnd('E', 4)
+                noteEnd('E', this.props.octave)
                 break;
 
             case 82:
-                noteEnd('F', 4);
+                noteEnd('F', this.props.octave);
                 break;
             case 53:
-                noteEnd('F#', 4);
+                noteEnd('F#', this.props.octave);
                 break;
             case 84: // a
-                noteEnd('G', 4)
+                noteEnd('G', this.props.octave)
                 break;
             case 54: // a
-                noteEnd('G#', 4)
+                noteEnd('G#', this.props.octave)
                 break;
             case 89: // a
-                noteEnd('A', 4)
+                noteEnd('A', this.props.octave)
                 break;
             case 55: // a
-                noteEnd('A#', 4)
+                noteEnd('A#', this.props.octave)
                 break;
             case 85: // a
-                noteEnd('B', 4)
+                noteEnd('B', this.props.octave)
                 break;
         }
     }

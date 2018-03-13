@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import { Map } from 'immutable';
 
 import pianoRoll from './PianoRoll';
+import verticalKeyboard from './VerticalKeyboard';
 
 const playbackInitalState = {
     time: 0,
@@ -34,7 +35,7 @@ function audio(state = Map(), action) {
             AUDIO_ENGINE.start(action.note, action.level);
             return state.set("" + action.note + action.level, true);
         case 'AUDIO_END':
-            AUDIO_ENGINE.stop(action.note);
+            AUDIO_ENGINE.stop(action.note, action.level);
             return state.remove("" + action.note + action.level);
         default:
             return state;
@@ -46,5 +47,6 @@ function audio(state = Map(), action) {
 export default combineReducers({
     playback,
     audio,
-    pianoRoll
+    pianoRoll,
+    verticalKeyboard
 })

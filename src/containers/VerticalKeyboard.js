@@ -4,6 +4,7 @@ import VerticalKeyboard from '../components/VerticalKeyboard';
 
 export default connect(
     state => ({
+        octave: state.verticalKeyboard.octave
     }),
     dispatch => ({
         noteStart(note, level) { 
