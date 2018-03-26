@@ -12,12 +12,19 @@ import thunk from 'redux-thunk';
 
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 
-let store = createStore(
-    bmw,
-    compose(
+let middleware;
+if (typeof devTools !== 'undefined') {
+    middleware = compose(
         applyMiddleware(thunk),
         devTools,
-    )
+    );
+} else {
+    middleware = applyMiddleware(thunk);
+}
+
+let store = createStore(
+    bmw,
+    middleware
 );
 window.store = store;
 
