@@ -129,20 +129,17 @@ export class AudioEngine {
     }
 
     // change params to frequncy
-    start(instrumentName, note, level) {
-        // const frequency = this.getFreqency(note, level);
-        this.getFreqency(note, level).then(frequency => {
-            const instrument = this.instruments[instrumentName];
-            instrument.unMute(frequency);
-        });
+    async start(instrumentName, note, level) {
+        const frequency = await this.getFreqency(note, level);
+        const instrument = this.instruments[instrumentName];
+        instrument.unMute(frequency);
     }
 
     // change params to frequncy
-    stop(instrumentName, note, level) {
-        this.getFreqency(note, level).then(frequency => {
-            const instrument = this.instruments[instrumentName];
-            instrument.mute(frequency)
-        })
+    async stop(instrumentName, note, level) {
+        const frequency = await this.getFreqency(note, level);
+        const instrument = this.instruments[instrumentName];
+        instrument.mute(frequency)
     }
 }
 
